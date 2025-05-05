@@ -69,8 +69,13 @@ end
 local function create_buffer(filepath)
 	local buf = vim.fn.bufnr(filepath, true)
 
+	-- TODO: Move this out
 	vim.keymap.set("n", "q", function()
-		vim.api.nvim_win_close(0, true)
+		if vim.api.nvim_get_option_value("modified", { buf = buf }) then
+			vim.notify("Unsaved changes in the notes", vim.log.levels.WARN)
+		else
+			vim.api.nvim_win_close(0, true)
+		end
 	end, { buffer = buf })
 
 	vim.bo[buf].swapfile = false
