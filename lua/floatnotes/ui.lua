@@ -56,7 +56,6 @@ local function create_window(buf, options)
 		row = (vim_ui.height - height) / 2,
 		anchor = "NW",
 		zindex = 100,
-        border = vim.o.winborder,
 	})
 
 	create_backdrop(buf, options.backdrop)

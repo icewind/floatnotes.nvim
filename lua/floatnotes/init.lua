@@ -11,20 +11,21 @@ local ui = require("floatnotes.ui")
 
 local M = {}
 
-local default_options = {
-	ui = {
-		max_width = 120,
-	},
-	backdrop = {
-		opacity = 30,
-	},
-	win = {
-		border = vim.o.winborder,
-	},
-}
-
 ---@param options PluginOptions
 function M.setup(options)
+
+    local default_options = {
+        ui = {
+            max_width = 120,
+        },
+        backdrop = {
+            opacity = 30,
+        },
+        win = {
+            border = vim.o.winborder or "none",
+        },
+    }
+
 	options = vim.tbl_deep_extend("keep", options, default_options) --[[@as PluginOptions]]
 
 	vim.api.nvim_create_user_command("FloatNotes", function()
