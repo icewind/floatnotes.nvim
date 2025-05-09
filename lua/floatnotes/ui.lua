@@ -1,3 +1,4 @@
+local utils = require("floatnotes.utils")
 local UI = {}
 
 ---@alias BackdropOptions { color?: string, opacity?: number }
@@ -70,6 +71,7 @@ local function create_buffer(filepath)
 	local buf = vim.fn.bufnr(filepath, true)
 
 	-- TODO: Move this out
+	-- Fast close for floating window
 	vim.keymap.set("n", "q", function()
 		if vim.api.nvim_get_option_value("modified", { buf = buf }) then
 			vim.notify("Unsaved changes in the notes", vim.log.levels.WARN)
@@ -85,6 +87,11 @@ end
 ---@param options {paths: string[], ui: table}
 function UI.open_floating_notes(options)
 	local filepath = options.paths[1]
+
+	if not utils.file_exists(filepath) then
+		vim.notify("Float Notes: Unable to read the notes file " .. filepath, vim.log.levels.ERROR)
+		return
+	end
 
 	local buf = create_buffer(filepath)
 	create_window(buf, options)

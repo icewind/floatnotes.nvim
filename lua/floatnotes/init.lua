@@ -1,5 +1,4 @@
 local ui = require("floatnotes.ui")
-local utils = require("floatnotes.utils")
 
 ---@alias PluginOptions
 ---|{
@@ -28,15 +27,7 @@ local default_options = {
 function M.setup(options)
 	options = vim.tbl_deep_extend("keep", options, default_options) --[[@as PluginOptions]]
 
-	if not utils.file_exists(options.global_notes_file_path) then
-		vim.notify(
-			"Float Notes: Unable to read the notes file " .. options.global_notes_file_path,
-			vim.log.levels.ERROR
-		)
-		return
-	end
-
-	vim.api.nvim_create_user_command("FN", function()
+	vim.api.nvim_create_user_command("FloatNotes", function()
 		ui.open_floating_notes({
 			paths = {
 				options.global_notes_file_path,
