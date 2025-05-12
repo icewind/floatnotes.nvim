@@ -22,10 +22,9 @@ function M.setup(options)
         },
         win = {
             border = vim.o.winborder or "none",
-            zindex = 90, -- Telescope uses 100 by default
+            zindex = 10, -- Telescope uses 100 by default
         },
     }
-    
     options = vim.tbl_deep_extend("keep", options, default_options) --[[@as PluginOptions]]
 
     vim.api.nvim_create_user_command("FloatNotes", function()
