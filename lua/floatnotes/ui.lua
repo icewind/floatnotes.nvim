@@ -6,7 +6,8 @@ local UI = {}
 
 ---@param buf number
 ---@param options BackdropOptions
-local function create_backdrop(buf, options)
+---@param zindex number
+local function create_backdrop(buf, options, zindex)
     local hlGroup = "FloatNotesNormal"
     local backdropBuffer = vim.api.nvim_create_buf(false, true)
     vim.bo[backdropBuffer].buftype = "nofile"
@@ -20,7 +21,7 @@ local function create_backdrop(buf, options)
         height = vim.o.lines,
         focusable = false,
         style = "minimal",
-        zindex = 99,
+        zindex = zindex,
     })
 
     vim.api.nvim_create_autocmd({ "WinClosed", "BufLeave" }, {
@@ -57,7 +58,7 @@ local function create_window(buf, options)
         anchor = "NW",
     })
 
-    create_backdrop(buf, options.backdrop)
+    create_backdrop(buf, options.backdrop, options.win.zindex - 1)
 
     local win = vim.api.nvim_open_win(buf, true, window_options)
     -- Disable separate hl groups
