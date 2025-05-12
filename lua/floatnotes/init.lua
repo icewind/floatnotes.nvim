@@ -13,7 +13,6 @@ local M = {}
 
 ---@param options PluginOptions
 function M.setup(options)
-
     local default_options = {
         ui = {
             max_width = 120,
@@ -23,21 +22,22 @@ function M.setup(options)
         },
         win = {
             border = vim.o.winborder or "none",
+            zindex = 90, -- Telescope uses 100 by default
         },
     }
+    
+    options = vim.tbl_deep_extend("keep", options, default_options) --[[@as PluginOptions]]
 
-	options = vim.tbl_deep_extend("keep", options, default_options) --[[@as PluginOptions]]
-
-	vim.api.nvim_create_user_command("FloatNotes", function()
-		ui.open_floating_notes({
-			paths = {
-				options.global_notes_file_path,
-			},
-			ui = options.ui,
-			win = options.win,
-			backdrop = options.backdrop,
-		})
-	end, {})
+    vim.api.nvim_create_user_command("FloatNotes", function()
+        ui.open_floating_notes({
+            paths = {
+                options.global_notes_file_path,
+            },
+            ui = options.ui,
+            win = options.win,
+            backdrop = options.backdrop,
+        })
+    end, {})
 end
 
 return M
